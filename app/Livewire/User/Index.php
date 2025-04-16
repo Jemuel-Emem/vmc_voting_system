@@ -41,8 +41,10 @@ class Index extends Component
 
     public function submitVote()
     {
-
-
+        if (Voting::where('user_id', auth()->id())->exists()) {
+            session()->flash('message', 'You have already submitted your vote.');
+            return;
+        }
         $this->validate([
 
             'selectedPresident' => 'required|exists:presidents,id',
