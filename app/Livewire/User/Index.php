@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Livewire\User;
+use App\Models\Participant;
+use App\Models\Group;
+use App\Models\President;
+use App\Models\Vicepres;
+use App\Models\Senators;
+use App\Models\Voting;
+use Livewire\Component;
+
+class Index extends Component
+{
+    public $selectedGroup;
+    public $selectedPresident;
+    public $selectedVicepres;
+    public $selectedSenators = [];
+    public $instructions;
+
+    public function render()
+    {
+        return view('livewire.user.index', [
+            'groups' => Group::with(['president', 'vicepres'])->get(),
+            'presidents' => President::all(),
+            'vicepresidents' => Vicepres::all(),
+            'senators' => Senators::all(),
+        ]);
+    }
+
+    public function updatedSelectedGroup($groupId)
+    {
+        if ($groupId) {
+            $group = Group::find($groupId);
+            $this->selectedPresident = $group->president_id;
+            $this->selectedVicepres = $group->vicepres_id;
+            $this->selectedSenators = json_decode($group->senators_id, true) ?? [];
+        } else {
+            $this->reset(['selectedPresident', 'selectedVicepres', 'selectedSenators']);
+        }
+    }
+
+    public function submitVote()
+    {
+
+
+        $this->validate([
+
+            'selectedPresident' => 'required|exists:presidents,id',
+            'selectedVicepres' => 'required|exists:vicepres,id',
+            'selectedSenators' => 'required|array|size:4',
+            'selectedSenators.*' => 'exists:senators,id',
+
+        ]);
+
+
+        Voting::create([
+            'user_id' => auth()->id(),
+            'president_id' => $this->selectedPresident,
+            'vice_president_id' => $this->selectedVicepres,
+            'senator_ids' => json_encode($this->selectedSenators),
+        ]);
+
+        session()->flash('message', 'Vote submitted successfully!');
+        $this->reset();
+    }
+
+}
