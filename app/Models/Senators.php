@@ -13,4 +13,9 @@ class Senators extends Model
     'image'
 ];
 
+
+public function groups()
+{
+    return $this->belongsToMany(Group::class, 'group_senator', 'senator_id', 'group_id');
+}
 }

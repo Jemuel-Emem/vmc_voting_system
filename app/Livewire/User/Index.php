@@ -17,16 +17,43 @@ class Index extends Component
     public $selectedSenators = [];
     public $instructions;
 
-    public function render()
-    {
-        return view('livewire.user.index', [
-            'groups' => Group::with(['president', 'vicepres'])->get(),
-            'presidents' => President::all(),
-            'vicepresidents' => Vicepres::all(),
-            'senators' => Senators::all(),
-        ]);
-    }
+    // public function render()
+    // {
+    //     return view('livewire.user.index', [
+    //         'groups' => Group::with(['president', 'vicepres'])->get(),
+    //         'presidents' => President::all(),
+    //         'vicepresidents' => Vicepres::all(),
+    //         'senators' => Senators::all(),
+    //     ]);
+    // }
 
+
+    public function render()
+{
+
+    $groups = Group::with(['president', 'vicepres'])->get();
+
+
+    $presidentIds = $groups->pluck('president_id')->filter()->unique();
+
+
+    $vicepresIds = $groups->pluck('vicepres_id')->filter()->unique();
+
+
+    $senatorIds = $groups->pluck('senators_id')
+        ->map(function ($senatorsIdJson) {
+            return json_decode($senatorsIdJson, true) ?: [];
+        })
+        ->flatten()
+        ->unique();
+
+    return view('livewire.user.index', [
+        'groups' => $groups,
+        'presidents' => President::whereIn('id', $presidentIds)->get(),
+        'vicepresidents' => Vicepres::whereIn('id', $vicepresIds)->get(),
+        'senators' => Senators::whereIn('id', $senatorIds)->get(),
+    ]);
+}
     public function updatedSelectedGroup($groupId)
     {
         if ($groupId) {

@@ -111,7 +111,7 @@
 
 
                 <li>
-                    <a href="{{ route('admindashboard') }}"
+                    <a href="{{ route('admin.result') }}"
                         class="flex items-center p-2 text-white hover:text-black rounded-lg hover:bg-blue-100 dark:hover:bg-blue-700 group">
                         <i class="ri-pie-chart-fill text-blue-300"></i>
 

@@ -13,17 +13,34 @@ class Group extends Model
         'senators_id', // assuming you're storing this as a JSON field
     ];
 
-    public function president()
+//     public function president()
+// {
+//     return $this->belongsTo(President::class, 'president_id');
+// }
+
+// public function vicepres()
+// {
+//     return $this->belongsTo(Vicepres::class, 'vicepres_id');
+// }
+// public function participants(): HasMany
+// {
+//     return $this->hasMany(Participant::class);
+// }
+
+
+public function president()
 {
-    return $this->belongsTo(President::class, 'president_id');
+    return $this->belongsTo(President::class);
 }
 
 public function vicepres()
 {
-    return $this->belongsTo(Vicepres::class, 'vicepres_id');
+    return $this->belongsTo(Vicepres::class);
 }
-public function participants(): HasMany
+
+public function senators()
 {
-    return $this->hasMany(Participant::class);
+    return $this->belongsToMany(Senators::class, 'group_senator', 'group_id', 'senator_id');
 }
+
 }

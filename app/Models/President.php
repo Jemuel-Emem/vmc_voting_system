@@ -15,4 +15,14 @@ class President extends Model
         'image'
     ];
 
+    public function votings()
+{
+    return $this->hasMany(\App\Models\Voting::class, 'president_id');
+}
+
+public function group()
+{
+    return $this->hasOne(Group::class);
+}
+
 }

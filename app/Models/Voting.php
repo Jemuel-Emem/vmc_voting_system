@@ -14,4 +14,9 @@ class Voting extends Model
     'vice_president_id',
     'senator_ids',
 ];
+
+protected $casts = [
+    'senator_ids' => 'array',
+];
+
 }

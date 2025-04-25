@@ -50,6 +50,9 @@ Route::prefix('admin')->middleware(['auth', admin::class])->group(function () {
         return view('admin.participant');
     })->name('admin.participant');
 
+    Route::get('/admin.result', function () {
+        return view('admin.result');
+    })->name('admin.result');
 
     // Route::post('/logout', function () {
     //     Auth::logout();
@@ -63,6 +66,7 @@ Route::prefix('user')->middleware(['auth', user::class])->group(function () {
     Route::get('/user.index', function () {
         return view('user.index');
     })->name('studentdashboard');
+
 
 
     // Route::post('/logout', function () {

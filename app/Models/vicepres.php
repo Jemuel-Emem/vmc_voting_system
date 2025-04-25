@@ -14,5 +14,13 @@ class vicepres extends Model
         'section',
         'image'
     ];
+    public function votings()
+    {
+        return $this->hasMany(\App\Models\Voting::class, 'vice_president_id');
+    }
 
+    public function group()
+    {
+        return $this->hasOne(Group::class);
+    }
 }
