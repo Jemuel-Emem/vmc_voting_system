@@ -16,7 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('president_id');
             $table->unsignedBigInteger('vice_president_id');
-            $table->json('senator_ids');
+            $table->unsignedBigInteger('senator_id_1')->nullable();
+            $table->unsignedBigInteger('senator_id_2')->nullable();
+            $table->unsignedBigInteger('senator_id_3')->nullable();
+            $table->unsignedBigInteger('senator_id_4')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

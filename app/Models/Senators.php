@@ -13,7 +13,10 @@ class Senators extends Model
     'image'
 ];
 
-
+public function votings()
+{
+    return $this->belongsToMany(Voting::class, 'voting_senators');
+}
 public function groups()
 {
     return $this->belongsToMany(Group::class, 'group_senator', 'senator_id', 'group_id');

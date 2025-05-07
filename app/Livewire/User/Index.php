@@ -66,27 +66,54 @@ class Index extends Component
         }
     }
 
+    // public function submitVote()
+    // {
+    //     if (Voting::where('user_id', auth()->id())->exists()) {
+    //         session()->flash('message', 'You have already submitted your vote.');
+    //         return;
+    //     }
+    //     $this->validate([
+
+    //         'selectedPresident' => 'required|exists:presidents,id',
+    //         'selectedVicepres' => 'required|exists:vicepres,id',
+    //         'selectedSenators' => 'required|array|size:4',
+    //         'selectedSenators.*' => 'exists:senators,id',
+
+    //     ]);
+
+
+    //     Voting::create([
+    //         'user_id' => auth()->id(),
+    //         'president_id' => $this->selectedPresident,
+    //         'vice_president_id' => $this->selectedVicepres,
+    //         'senator_ids' => json_encode($this->selectedSenators),
+    //     ]);
+
+    //     session()->flash('message', 'Vote submitted successfully!');
+    //     $this->reset();
+    // }
     public function submitVote()
     {
         if (Voting::where('user_id', auth()->id())->exists()) {
             session()->flash('message', 'You have already submitted your vote.');
             return;
         }
-        $this->validate([
 
+        $this->validate([
             'selectedPresident' => 'required|exists:presidents,id',
             'selectedVicepres' => 'required|exists:vicepres,id',
             'selectedSenators' => 'required|array|size:4',
             'selectedSenators.*' => 'exists:senators,id',
-
         ]);
-
 
         Voting::create([
             'user_id' => auth()->id(),
             'president_id' => $this->selectedPresident,
             'vice_president_id' => $this->selectedVicepres,
-            'senator_ids' => json_encode($this->selectedSenators),
+            'senator_id_1' => $this->selectedSenators[0],
+            'senator_id_2' => $this->selectedSenators[1],
+            'senator_id_3' => $this->selectedSenators[2],
+            'senator_id_4' => $this->selectedSenators[3],
         ]);
 
         session()->flash('message', 'Vote submitted successfully!');

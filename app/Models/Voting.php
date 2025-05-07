@@ -12,11 +12,11 @@ class Voting extends Model
     'user_id',
     'president_id',
     'vice_president_id',
-    'senator_ids',
+    'senator_id_1',
+    'senator_id_2',
+    'senator_id_3',
+    'senator_id_4',
 ];
 
-protected $casts = [
-    'senator_ids' => 'array',
-];
 
 }

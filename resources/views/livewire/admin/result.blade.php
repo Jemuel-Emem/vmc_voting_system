@@ -1,96 +1,45 @@
-<div class="p-4 space-y-6">
+<div class="max-w-8xl mx-auto py-6 px-4">
+    <h3 class="text-3xl font-semibold text-center mb-6 text-gray-800">Election Results</h3>
 
-    <div class="bg-white p-4 rounded shadow">
-        <h2 class="text-lg font-semibold mb-2">President Votes</h2>
-        <table class="w-full text-left text-sm">
-            <thead>
-                <tr class="bg-blue-100">
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Year</th>
-                    <th class="px-4 py-2">Section</th>
-                    <th class="px-4 py-2">Votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
+    <!-- PRESIDENTS -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h4 class="text-2xl font-bold text-blue-600 mb-4">Presidents</h4>
+        <ul class="space-y-4">
+            @foreach($presidents as $president)
+                <li class="flex justify-between items-center border-b border-gray-200 pb-3">
+                    <span class="text-lg text-gray-800">{{ $president->name }}</span>
+                    <span class="text-sm text-gray-500">{{ $president->votes }} votes</span>
 
-                    $highestPresidentVotes = $presidents->max('votes');
-                @endphp
-
-                @foreach ($presidents as $p)
-                    <tr class="border-b {{ $p->votes == $highestPresidentVotes ? 'bg-green-100' : '' }}">
-                        <td class="px-4 py-2">{{ $p->name }}</td>
-                        <td class="px-4 py-2">{{ $p->year }}</td>
-                        <td class="px-4 py-2">{{ $p->section }}</td>
-                        <td class="px-4 py-2 font-bold">{{ $p->votes }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </li>
+            @endforeach
+        </ul>
     </div>
 
+    <!-- VICE PRESIDENTS -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h4 class="text-2xl font-bold text-purple-600 mb-4">Vice Presidents</h4>
+        <ul class="space-y-4">
+            @foreach($vicepres as $vp)
+                <li class="flex justify-between items-center border-b border-gray-200 pb-3">
+                    <span class="text-lg text-gray-800">{{ $vp->name }}</span>
+                    <span class="text-sm text-gray-500">{{ $vp->votes }} votes</span>
 
-    <div class="bg-white p-4 rounded shadow">
-        <h2 class="text-lg font-semibold mb-2">Vice President Votes</h2>
-        <table class="w-full text-left text-sm">
-            <thead>
-                <tr class="bg-blue-100">
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Year</th>
-                    <th class="px-4 py-2">Section</th>
-                    <th class="px-4 py-2">Votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-
-                    $highestVicePresidentVotes = $vicepres->max('votes');
-                @endphp
-
-                @foreach ($vicepres as $vp)
-                    <tr class="border-b {{ $vp->votes == $highestVicePresidentVotes ? 'bg-green-100' : '' }}">
-                        <td class="px-4 py-2">{{ $vp->name }}</td>
-                        <td class="px-4 py-2">{{ $vp->year }}</td>
-                        <td class="px-4 py-2">{{ $vp->section }}</td>
-                        <td class="px-4 py-2 font-bold">{{ $vp->votes }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </li>
+            @endforeach
+        </ul>
     </div>
 
+    <!-- SENATORS -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h4 class="text-2xl font-bold text-green-600 mb-4">Senators</h4>
+        <ul class="space-y-4">
+            @foreach($senators as $senator)
+                <li class="flex justify-between items-center border-b border-gray-200 pb-3">
+                    <span class="text-lg text-gray-800">{{ $senator->name }}</span>
+                    <span class="text-sm text-gray-500">{{ $senator->votes }} votes</span>
 
-    <div class="bg-white p-4 rounded shadow">
-        <h2 class="text-lg font-semibold mb-2">Senator Votes</h2>
-        <table class="w-full text-left text-sm">
-            <thead>
-                <tr class="bg-blue-100">
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Year</th>
-                    <th class="px-4 py-2">Section</th>
-                    <th class="px-4 py-2">Votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-
-                    $sortedSenators = $senatorVotes->sortByDesc('votes')->take(4);
-                @endphp
-
-                @foreach ($senatorVotes as $senator)
-                    @php
-
-                        $isTopFour = $sortedSenators->contains($senator);
-                    @endphp
-
-                    <tr class="border-b {{ $isTopFour ? 'bg-green-100' : '' }}">
-                        <td class="px-4 py-2">{{ $senator->name }}</td>
-                        <td class="px-4 py-2">{{ $senator->year }}</td>
-                        <td class="px-4 py-2">{{ $senator->section }}</td>
-                        <td class="px-4 py-2 font-bold">{{ $senator->votes }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </li>
+            @endforeach
+        </ul>
     </div>
 </div>

@@ -11,45 +11,30 @@ use Illuminate\Support\Facades\DB;
 
 class Result extends Component
 {
-    // public function render()
-    // {
-    //     $presidents = President::withCount(['votings as votes' => function ($query) {
-    //         $query->select(DB::raw("count(*)"));
-    //     }])->get();
-
-    //     $vicepres = Vicepres::withCount(['votings as votes' => function ($query) {
-    //         $query->select(DB::raw("count(*)"));
-    //     }])->get();
-
-    //     // Count senator votes manually (since it's stored as JSON array)
-    //     $senatorVotes = Senators::all()->map(function ($senator) {
-    //         $count = Voting::whereJsonContains('senator_ids', (string) $senator->id)->count();
-
-    //         $senator->votes = $count;
-    //         return $senator;
-    //     });
-
-    //     return view('livewire.admin.result', compact('presidents', 'vicepres', 'senatorVotes'));
-    // }
-
     public function render()
-{
-    $presidents = President::withCount(['votings as votes' => function ($query) {
-        $query->select(DB::raw("count(*)"));
-    }])->orderByDesc('votes')->get(); // Sorting by votes
+    {
+        // PRESIDENT VOTES: Getting total votes for each president
+        $presidents = President::withCount(['votings as votes' => function ($query) {
+            $query->select(DB::raw("count(*)"));
+        }])->orderByDesc('votes')->get();
 
-    $vicepres = Vicepres::withCount(['votings as votes' => function ($query) {
-        $query->select(DB::raw("count(*)"));
-    }])->orderByDesc('votes')->get(); // Sorting by votes
+        // VICE PRESIDENT VOTES: Getting total votes for each vice president
+        $vicepres = Vicepres::withCount(['votings as votes' => function ($query) {
+            $query->select(DB::raw("count(*)"));
+        }])->orderByDesc('votes')->get();
 
-    // Count senator votes manually (since it's stored as JSON array)
-    $senatorVotes = Senators::all()->map(function ($senator) {
-        $count = Voting::whereJsonContains('senator_ids', (string) $senator->id)->count();
-        $senator->votes = $count;
-        return $senator;
-    })->sortByDesc('votes'); // Sorting by votes
+        // SENATORS VOTES: Getting total votes for each senator
+        $senators = Senators::all()->map(function ($senator) {
+            // Counting votes across multiple senator fields (senator_id_1 to senator_id_4)
+            $senator->votes = Voting::where('senator_id_1', $senator->id)
+                ->orWhere('senator_id_2', $senator->id)
+                ->orWhere('senator_id_3', $senator->id)
+                ->orWhere('senator_id_4', $senator->id)
+                ->count();
+            return $senator;
+        })->sortByDesc('votes')->values(); // Sorting senators by votes in descending order
 
-    return view('livewire.admin.result', compact('presidents', 'vicepres', 'senatorVotes'));
-}
-
+        // Returning the view with all necessary data
+        return view('livewire.admin.result', compact('presidents', 'vicepres', 'senators'));
+    }
 }
