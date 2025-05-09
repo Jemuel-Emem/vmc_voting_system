@@ -83,7 +83,11 @@
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
                 <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                     <li>
-                        <a href="" class="block py-2 px-3 text-white uppercase font-bold nav-link">Home</a>
+                        <a href="{{route('studentdashboard')}}" class="block py-2 px-3 text-white uppercase font-bold nav-link">Vote Now</a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('user.welcome')}}" class="block py-2 px-3 text-white uppercase font-bold nav-link">Home</a>
                     </li>
                     <li>
                         {{-- <a href="{{ route('servi') }}" class="block py-2 px-3 text-white uppercase font-bold nav-link">Services</a> --}}

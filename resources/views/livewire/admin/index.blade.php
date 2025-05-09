@@ -58,6 +58,7 @@
                 <li>
                     <div class="flex justify-between mb-1 text-sm">
                         <span>{{ $senator->name }}</span>
+
                         <span>{{ $senator->votes }} votes ({{ $percent }}%)</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-3">

@@ -67,6 +67,10 @@ Route::prefix('user')->middleware(['auth', user::class])->group(function () {
         return view('user.index');
     })->name('studentdashboard');
 
+    Route::get('/user.welcome', function () {
+        return view('user.welcome');
+    })->name('user.welcome');
+
 
 
     // Route::post('/logout', function () {
